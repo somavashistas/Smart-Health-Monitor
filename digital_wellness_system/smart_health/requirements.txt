@@ -1,0 +1,5 @@
+Django==5.2.9
+mediapipe==0.10.5
+numpy==1.23.5
+opencv-python==4.7.0.72
+pyttsx3
