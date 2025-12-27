@@ -1,0 +1,589 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekday Mode</title>
+    <style>
+         /* ================= THEME VARIABLES ================= */
+
+        :root {
+            --bg-main: #e7ddb4;
+            --bg-card: #ffffff;
+            --text-main: #1f2937;
+            --text-sub: #6b7280;
+            --accent: #f59e0b;
+            --nav-gradient: linear-gradient(90deg, #f97316, #f59e0b);
+        }
+
+        /* DARK MODE */
+        body.dark {
+            --bg-main: #020617;
+            --bg-card: rgba(15, 23, 42, 0.85);
+            --text-main: #e2e8f0;
+            --text-sub: #94a3b8;
+            --accent: #38bdf8;
+            --nav-gradient: linear-gradient(90deg, #020617, #0f172a);
+            /* background-image: url("../../images/darkmodebg.jpeg"); */
+            background-image: url("{% static 'monitor/images/darkmodebg.jpeg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* ================= RESET ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-main);
+            /* background-image: url("../../images/lightmodebg1.jpeg"); */
+            background-image: url("{% static 'monitor/images/lightmodebg1.jpeg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+         /* ================= NAVBAR ================= */
+        .navbar {
+            background: var(--nav-gradient);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-title {
+            font-size: 1.5em;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        .nav-title:hover {
+            opacity: 0.8;
+        }
+
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ================= TOGGLE SWITCH ================= */
+        .zen-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+
+        .zen-track {
+            width: 40px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .zen-knob {
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        body.dark .zen-knob {
+            transform: translateX(20px);
+        }
+        
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-image: url("{% static 'monitor/images/lightmodebg1.jpeg' %}");
+            /* background-image: url("../../images/lightmodebg1.jpeg"); */
+            min-height: 100vh;
+        }
+        
+        .header {
+            text-align: center;
+            color: var(--text-main);
+            margin-bottom: 30px;
+        }
+
+        body.dark .header {
+            color: var(--text-main);
+        }
+        
+        .header h2 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        body.dark .header p {
+            color: var(--text-sub);
+        }
+        
+        .video-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        body.dark .video-container {
+            background: rgba(30, 41, 59, 0.9);
+        }
+        
+        .video-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            font-size: 1.2em;
+        }
+
+        body.dark .loading {
+            color: var(--text-sub);
+        }
+        
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #2563eb;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        button, .btn-link {
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            background: white;
+            color: #1e293b;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+        
+        button:hover, .btn-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #1e293b;
+        }
+
+        body.dark .info-box {
+            background: rgba(30, 41, 59, 0.95);
+            color: var(--text-main);
+        }
+        
+        .info-box h3 {
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+
+        body.dark .info-box h3 {
+            color: var(--accent);
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .info-box li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: #16a34a;
+            font-weight: bold;
+        }
+        
+        #timerStatus {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--text-main);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        body.dark #timerStatus {
+            color: var(--text-main);
+        }
+        
+        .timer-controls {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        body.dark .timer-controls {
+            background: rgba(30, 41, 59, 0.9);
+        }
+        
+        .btn-start {
+            background: #16a34a !important;
+            color: white !important;
+        }
+        
+        .btn-stop {
+            background: #dc2626 !important;
+            color: white !important;
+        }
+        
+        .btn-history {
+            background: #eab308 !important;
+            color: black !important;
+        }
+        
+        .btn-home {
+            background: #64748b !important;
+            color: white !important;
+        }
+
+        .warning-text {
+            text-align: center;
+            color: var(--text-main);
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        body.dark .warning-text {
+            color: var(--text-sub);
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            margin-top: auto;
+            background: var(--bg-card);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            color: var(--text-sub);
+        }
+
+        footer .footer-left,
+        footer .footer-center,
+
+        footer .footer-left {
+            flex: 0.8;
+            text-align: left;
+        }
+
+        footer .footer-center {
+            flex: 2.5;
+            text-align: center;
+        }
+
+        footer .footer-right {
+            flex: 1;
+            text-align: right;
+        }
+
+        footer strong {
+            color: var(--text-main);
+        }
+    </style>
+</head>
+
+<body>
+        <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="nav-title" onclick="window.location.reload()">Smart Health Monitor</div>
+
+        <div class="nav-links">
+            <a href="{% url 'home_page' %}">Home</a>
+            <a href="{% url 'weekday_page' %}">Weekday Mode</a>
+            <a href="{% url 'weekend_page' %}">Weekend Mode</a>
+            <a href="{% url 'combined_history' %}#weekday">History</a>
+
+            <div class="zen-toggle" onclick="toggleTheme()">
+                <span>Focus</span>
+                <div class="zen-track">
+                    <div class="zen-knob"></div>
+                </div>
+                <span>Relax</span>
+            </div>
+
+        </div>
+    </div>
+    <div class="header">
+        <h2>💼 Weekday Mode - Posture Monitoring</h2>
+        <p style="font-size: 1.1em;">Keep your posture healthy while working!</p>
+    </div>
+    
+    <div class="video-container">
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Initializing camera...</p>
+        </div>
+        <img id="cameraFeed" style="display:none;" alt="Weekday Camera Feed">
+    </div>
+
+    <div class="info-box">
+        <h3>Active Monitoring Features:</h3>
+        <ul>
+            <li>Posture detection (slouching, forward head, tilted shoulders)</li>
+            <li>Distance monitoring (too close to screen)</li>
+            <li>Blink rate tracking (screen fatigue detection)</li>
+            <li>Drowsiness alerts (extended eye closure)</li>
+            <li>Voice notifications for corrections</li>
+        </ul>
+    </div>
+
+    <!-- Timer Status -->
+    <h3 id="timerStatus"></h3>
+
+    <!-- Hidden form for CSRF token -->
+    <form id="sessionForm" style="display:none;">{% csrf_token %}</form>
+
+    <!-- Timer Controls -->
+    <div class="timer-controls">
+        <div style="text-align:center;">
+            <button onclick="startTimer()" class="btn-start">▶️ START SESSION</button>
+            <button onclick="stopTimer()" class="btn-stop">⏹️ STOP SESSION</button>
+            <a href="{% url 'combined_history' %}#weekday"><button class="btn-history">📊 VIEW HISTORY</button></a>
+        </div>
+    </div>
+    
+    <div class="warning-text">
+        <p>⚠️ Camera will be released when you return to home</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-left">
+            <p><strong>© 2025 Smart Health Monitor</strong></p>
+        </div>
+        <div class="footer-center">
+            <p><strong>Support:</strong> somavashista@gmail.com</p>
+        </div>
+        <div class="footer-right">
+            <p><strong>Team:</strong> Abhay Pratap | Abhijeet | Adyasha Biswal | Ritabrata Karmakar | Aryan Bakhda |
+                Soma Vashista</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load saved theme on page load
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('smartHealthTheme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+            }
+        }
+
+        // Toggle theme and save preference
+        function toggleTheme() {
+            document.body.classList.toggle("dark");
+            
+            // Save theme preference
+            if (document.body.classList.contains('dark')) {
+                localStorage.setItem('smartHealthTheme', 'dark');
+            } else {
+                localStorage.setItem('smartHealthTheme', 'light');
+            }
+        }
+
+        // Load theme when page loads
+        window.addEventListener('DOMContentLoaded', loadTheme);
+
+        let cameraInitialized = false;
+        let startTime = null;
+        
+        // ===== TIMER FUNCTIONS =====
+        function startTimer() {
+            // Reset session stats on server side
+            resetSessionStats();
+            
+            startTime = new Date();
+            document.getElementById("timerStatus").innerText = "Session Started...";
+            document.getElementById("timerStatus").style.color = "white";
+        }
+        
+        async function resetSessionStats() {
+            // Call backend to reset session-specific counters
+            let csrf = document.querySelector("[name=csrfmiddlewaretoken]").value;
+            
+            try {
+                await fetch("/weekday/reset_session/", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": csrf,
+                        "Content-Type": "application/json"
+                    }
+                });
+            } catch(error) {
+                console.log("Note: Session reset endpoint not critical");
+            }
+        }
+
+        async function stopTimer() {
+            if (!startTime) {
+                alert("Please start the timer first!");
+                return;
+            }
+
+            let endTime = new Date();
+            let duration = Math.floor((endTime - startTime) / 1000);
+
+            let csrf = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+            try {
+                let response = await fetch("/weekday/save/", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": csrf,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ duration: duration })
+                });
+
+                let result = await response.json();
+                
+                if (result.status === "saved") {
+                    let msg = `Session Saved: ${duration} sec (${(duration/60).toFixed(2)} min)`;
+                    if (result.blink_count !== undefined) {
+                        msg += `\nBlinks: ${result.blink_count}`;
+                    }
+                    if (result.bad_posture_time !== undefined) {
+                        msg += `\nBad Posture: ${result.bad_posture_time}s (${(result.bad_posture_time/60).toFixed(2)} min)`;
+                    }
+                    document.getElementById("timerStatus").innerText = msg;
+                    document.getElementById("timerStatus").style.color = "#16a34a";
+                } else {
+                    document.getElementById("timerStatus").innerText = "Error saving session";
+                    document.getElementById("timerStatus").style.color = "#dc2626";
+                }
+            } catch(error) {
+                console.error("Error:", error);
+                document.getElementById("timerStatus").innerText = "Error saving session";
+                document.getElementById("timerStatus").style.color = "#dc2626";
+            }
+
+            startTime = null;
+        }
+        
+        // ===== CAMERA FUNCTIONS =====
+        function stopCamera() {
+            const img = document.getElementById('cameraFeed');
+            if (img) {
+                img.src = '';
+                img.style.display = 'none';
+            }
+            cameraInitialized = false;
+        }
+        
+        // Handle page unload to stop camera
+        window.addEventListener('beforeunload', function() {
+            stopCamera();
+        });
+        
+        // Initialize camera with delay
+        setTimeout(function() {
+            const img = document.getElementById('cameraFeed');
+            const loading = document.getElementById('loading');
+            const timestamp = new Date().getTime();
+            
+            img.src = "{% url 'video_feed' %}?mode=weekday&t=" + timestamp;
+            cameraInitialized = true;
+            
+            img.onload = function() {
+                loading.style.display = 'none';
+                img.style.display = 'block';
+            };
+            
+            img.onerror = function() {
+                loading.innerHTML = '<p style="color:#dc2626;">Camera initialization failed. Please refresh the page.</p>';
+                cameraInitialized = false;
+            };
+        }, 500);
+    </script>
+</body>
+</html>

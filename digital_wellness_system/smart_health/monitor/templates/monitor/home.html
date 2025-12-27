@@ -1,0 +1,349 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Health Monitor</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================= THEME VARIABLES ================= */
+
+        :root {
+            --bg-main: #e7ddb4;
+            --bg-card: #ffffff;
+            --text-main: #1f2937;
+            --text-sub: #6b7280;
+            --accent: #f59e0b;
+            --nav-gradient: linear-gradient(90deg, #f97316, #f59e0b);
+        }
+
+        /* DARK MODE */
+        body.dark {
+            --bg-main: #020617;
+            --bg-card: rgba(15, 23, 42, 0.85);
+            --text-main: #e2e8f0;
+            --text-sub: #94a3b8;
+            --accent: #38bdf8;
+            --nav-gradient: linear-gradient(90deg, #020617, #0f172a);
+            /* background-image: url("../../images/darkmodebg.jpeg"); */
+            background-image: url("{% static 'monitor/images/darkmodebg.jpeg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* ================= RESET ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-main);
+            /* background-image: url("../../images/lightmodebg1.jpeg"); */
+            background-image: url("{% static 'monitor/images/lightmodebg1.jpeg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            background: var(--nav-gradient);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-title {
+            font-size: 1.5em;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-title:hover {
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ================= TOGGLE SWITCH ================= */
+        .zen-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-size: 0.85em;
+            cursor: pointer;
+        }
+
+        .zen-track {
+            width: 40px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .zen-knob {
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        body.dark .zen-knob {
+            transform: translateX(20px);
+        }
+
+
+        /* ================= HERO ================= */
+        .hero {
+            position: relative;
+            padding: 40px 20px;
+            text-align: center;
+            overflow: hidden;
+            min-height: 25vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1,
+        .hero p {
+            position: relative;
+            z-index: 1;
+        }
+
+
+        .hero h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 0.95em;
+            color: var(--text-sub);
+            max-width: 750px;
+            margin: auto;
+        }
+
+        /* ================= CONTENT ================= */
+        .main {
+            display: flex;
+            justify-content: center;
+            padding: 20px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 55%;
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 24px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .section h2 {
+            margin-bottom: 8px;
+            color: var(--accent);
+            font-size: 1.3em;
+        }
+
+        .section p {
+            color: var(--text-sub);
+            line-height: 1.5;
+            font-size: 0.9em;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            margin-top: auto;
+            background: var(--bg-card);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            color: var(--text-sub);
+        }
+
+        footer .footer-left,
+        footer .footer-center,
+
+        footer .footer-left {
+            flex: 0.8;
+            text-align: left;
+        }
+
+        footer .footer-center {
+            flex: 2.5;
+            text-align: center;
+        }
+
+        footer .footer-right {
+            flex: 1;
+            text-align: right;
+        }
+
+        footer strong {
+            color: var(--text-main);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="nav-title" onclick="window.location.reload()">Smart Health Monitor</div>
+
+        <div class="nav-links">
+            <!-- <a href="home.html">Home</a>
+            <a href="weekday.html">Weekday Mode</a>
+            <a href="weekend.html">Weekend Mode</a>
+            <a href="history.html">History</a> -->
+            <a href="{% url 'home_page' %}">Home</a>
+            <a href="{% url 'weekday_page' %}">Weekday Mode</a>
+            <a href="{% url 'weekend_page' %}">Weekend Mode</a>
+            <a href="{% url 'combined_history' %}">History</a>
+
+            <div class="zen-toggle" onclick="toggleTheme()">
+                <span>Focus</span>
+                <div class="zen-track">
+                    <div class="zen-knob"></div>
+                </div>
+                <span>Relax</span>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Technology that looks after you!!</h1>
+        <p>
+            I am your personal <strong>Digital Wellness Companion</strong>,
+            helping you maintain posture, focus, mindfulness, and balance —
+            whether you’re working hard or unwinding through yoga.
+        </p>
+    </div>
+
+    <!-- BODY -->
+    <div class="main">
+        <div class="container">
+
+            <div class="section">
+                <h2>Why Smart Health Monitor?</h2>
+                <p>
+                    Modern life keeps us glued to screens. Our system intelligently
+                    monitors posture, fatigue, and wellness patterns — guiding you
+                    gently toward healthier habits without interrupting your flow.
+                </p>
+            </div>
+
+            <div class="section">
+                <h2>Designed for Balance</h2>
+                <p>
+                    Switch seamlessly between productivity-focused weekday monitoring
+                    and calm, restorative weekend yoga sessions — all powered by
+                    computer vision and real-time feedback.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-left">
+            <p><strong>© 2025 Smart Health Monitor</strong></p>
+        </div>
+        <div class="footer-center">
+            <p><strong>Support:</strong> somavashista@gmail.com</p>
+        </div>
+        <div class="footer-right">
+            <p><strong>Team:</strong> Abhay Pratap | Abhijeet | Adyasha Biswal | Ritabrata Karmakar | Aryan Bakhda |
+                Soma Vashista</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load saved theme on page load
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('smartHealthTheme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+            }
+        }
+
+        // Toggle theme and save preference
+        function toggleTheme() {
+            document.body.classList.toggle("dark");
+            
+            // Save theme preference
+            if (document.body.classList.contains('dark')) {
+                localStorage.setItem('smartHealthTheme', 'dark');
+            } else {
+                localStorage.setItem('smartHealthTheme', 'light');
+            }
+        }
+
+        // Load theme when page loads
+        window.addEventListener('DOMContentLoaded', loadTheme);
+    </script>
+
+</body>
+
+</html>

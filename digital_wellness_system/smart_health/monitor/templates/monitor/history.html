@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yoga Session History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            width: 60%;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th {
+            background: #2563eb;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        tr:hover {
+            background: #f1f5f9;
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background: #2563eb;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center; color:#1e293b;">Yoga Session History</h2>
+
+    {% if sessions %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Duration (seconds)</th>
+                <th>Duration (minutes)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sessions %}
+            <tr>
+                <td>{{ s.date|date:"M d, Y - g:i A" }}</td>
+                <td>{{ s.duration }} sec</td>
+                <td>{{ s.duration_minutes }} min</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="no-data">
+        <p>No yoga sessions recorded yet. Start your first session!</p>
+    </div>
+    {% endif %}
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="{% url 'weekend_page' %}">
+            <button>Back to Weekend Mode</button>
+        </a>
+    </div>
+</body>
+</html>
